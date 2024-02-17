@@ -1,0 +1,55 @@
+version: '3.7'
+
+networks:
+  web_xdjango:
+
+volumes:
+  datavolume:
+  static:
+  .:
+
+services:
+  
+  db:
+    image: postgres:14.4
+    container_name: xdjango_db
+    ports:
+      - 5432
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - datavolume:/var/lib/postgresql/data
+    networks:
+      web_xdjango:
+    restart: always
+
+  app:
+    build:
+      context: .
+    volumes:
+      - static:/app/static
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      - db
+    networks:
+      web_xdjango:
+    restart: always
+
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - static:/app/static
+    depends_on:
+      - app
+    networks:
+      web_xdjango:
+    restart: always
