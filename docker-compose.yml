@@ -6,6 +6,7 @@ networks:
 volumes:
   datavolume:
   static:
+  acme:
   .:
 
 services:
@@ -66,7 +67,7 @@ services:
     volumes:
       - ./certs:/etc/nginx/certs:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      # - acme:/etc/acme.sh
+      - acme:/etc/acme.sh
     volumes_from:
       - nginx-proxy:rw
 
