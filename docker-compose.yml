@@ -48,7 +48,6 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./data:/data
       - /var/run/docker.sock:/tmp/docker.sock:ro
     depends_on:
       - app
@@ -64,6 +63,7 @@ services:
     volumes:
       - ./config.json:/app/config/production.json
       - ./letsencrypt:/etc/letsencrypt
+      - ./data:/data
     depends_on:
       - db
     networks:
