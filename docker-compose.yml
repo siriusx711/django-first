@@ -42,23 +42,10 @@ services:
     restart: always
 
 
-  # nginx-proxy:
-  #   image: jwilder/nginx-proxy
-  #   ports:
-  #     - "80:80"
-  #   volumes:
-  #     - /var/run/docker.sock:/tmp/docker.sock:ro
-  #   depends_on:
-  #     - app
-  #   networks:
-  #     web_xdjango:
-  #   restart: always
-
   manager:
     image: jc21/nginx-proxy-manager:latest
-    expose:
-      - '80:80'
     ports:
+      - '80:80'
       - '81:81'
       - '443:443'
     volumes:
@@ -80,10 +67,6 @@ services:
     volumes:
       - ./nginx:/etc/nginx/conf.d
       - static:/app/static
-    # environment:
-    #   - VIRTUAL_HOST=vallesmarket.com,www.vallesmarket.com
-    depends_on:
-      - manager
     networks:
       web_xdjango:
     restart: always
