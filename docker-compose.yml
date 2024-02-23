@@ -44,14 +44,27 @@ services:
     image: jwilder/nginx-proxy
     ports:
       - "80:80"
+      - "443:443"                                               # x
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
+      - certs:./app/certs:ro                                    # x
+      - ./nginx/vhost.d                                         # x
+      - /usr/share/nginx/html                                   # x
+    labels:                                                               # x
+      - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy     # x
     depends_on:
       - app
     networks:
       web_xdjango:
     restart: always
-
+  
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    volumes:
+      - certs:./app/certs:rw
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    volumes_from:
+      - nginx-proxy:rw
 
   nginx:
     build: ./nginx
@@ -62,6 +75,8 @@ services:
       - static:/app/static
     environment:
       - VIRTUAL_HOST=vallesmarket.com,www.vallesmarket.com
+      - LETSENCRYPT_HOST=vallesmarket.com,www.vallesmarket.com    # a
+      - LETSENCRYPT_EMAIL=siriusx711@gmail.com                    # a
     networks:
       web_xdjango:
     restart: always
