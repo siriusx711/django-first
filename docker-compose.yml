@@ -65,12 +65,12 @@ services:
     image: jrcs/letsencrypt-nginx-proxy-companion
     restart: always
     volumes:
-      - ./certs:/etc/nginx/certs:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./certs:/etc/nginx/certs:ro
       - acme:/etc/acme.sh
     volumes_from:
-      - nginx-proxy:rw
-
+      - nginx-proxy:ro
+    
 
   nginx:
     build: ./nginx
@@ -83,8 +83,6 @@ services:
       - VIRTUAL_HOST=vallesmarket.com,www.vallesmarket.com
       - LETSENCRYPT_HOST=vallesmarket.com,www.vallesmarket.com
       - LETSENCRYPT_EMAIL=siriusx711@gmail.com
-    depends_on:
-      - nginx-proxy
     networks:
       web_xdjango:
     restart: always
