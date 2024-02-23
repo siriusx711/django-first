@@ -49,7 +49,7 @@ services:
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - certs:/app/certs:ro                                    # x
-      - /nginx/vhost.d                                         # x
+      - /etc/nginx/vhost.d                                        # x
       - /usr/share/nginx/html                                   # x
     labels:                                                               # x
       - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy     # x
