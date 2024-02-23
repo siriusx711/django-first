@@ -62,8 +62,8 @@ services:
       - '81:81'
     volumes:
       - ./config.json:/app/config/production.json
-      - ./letsencrypt:/etc/letsencrypt
       - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
     depends_on:
       - db
     networks:
