@@ -49,7 +49,7 @@ services:
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
     depends_on:
-      - manager
+      - app
     networks:
       web_xdjango:
     restart: always
