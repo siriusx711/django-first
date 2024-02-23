@@ -26,6 +26,7 @@ services:
       web_xdjango:
     restart: always
 
+
   app:
     build:
       context: .
@@ -40,18 +41,34 @@ services:
       web_xdjango:
     restart: always
 
+
   nginx-proxy:
     image: jwilder/nginx-proxy
     ports:
       - "80:80"
+      - "443:443"
     volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
       - /var/run/docker.sock:/tmp/docker.sock:ro
     depends_on:
       - app
     networks:
       web_xdjango:
     restart: always
+    
 
+  manager:
+    image: jc21/nginx-proxy-manager:latest
+    ports:
+      - '81:81'
+    volumes:
+      - ./config.json:/app/config/production.json
+    depends_on:
+      - db
+    networks:
+      web_xdjango:
+    restart: always
 
   nginx:
     build: ./nginx
