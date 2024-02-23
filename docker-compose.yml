@@ -48,7 +48,7 @@ services:
       - "443:443"                                               # x
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - certs:./app/certs:ro                                    # x
+      - certs:/app/certs:ro                                    # x
       - ./nginx/vhost.d                                         # x
       - /usr/share/nginx/html                                   # x
     labels:                                                               # x
@@ -62,7 +62,7 @@ services:
   letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
     volumes:
-      - certs:./app/certs:rw
+      - certs:/app/certs:rw
       - /var/run/docker.sock:/tmp/docker.sock:ro
     volumes_from:
       - nginx-proxy:rw
