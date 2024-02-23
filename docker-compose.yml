@@ -6,6 +6,7 @@ networks:
 volumes:
   datavolume:
   static:
+  certs:
   .:
 
 services:
