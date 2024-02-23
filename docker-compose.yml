@@ -42,22 +42,16 @@ services:
     restart: always
 
 
-  manager:
-    image: jc21/nginx-proxy-manager:latest
+  manage:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
     ports:
       - '80:80'
       - '81:81'
       - '443:443'
     volumes:
-      - ./config.json:/app/config/production.json
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-    depends_on:
-      - app
-    networks:
-      web_xdjango:
-    restart: always
 
   nginx:
     build: ./nginx
@@ -67,6 +61,8 @@ services:
     volumes:
       - ./nginx:/etc/nginx/conf.d
       - static:/app/static
+    depends_on:
+      - app
     networks:
       web_xdjango:
     restart: always
