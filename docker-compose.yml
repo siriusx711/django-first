@@ -44,7 +44,6 @@ services:
   manager:
     image: jc21/nginx-proxy-manager:latest
     ports:
-      - '80:80'
       - '81:81'
       - '443:443'
     volumes:
@@ -57,44 +56,27 @@ services:
       web_xdjango:
     restart: always
 
-  # nginx-proxy:
-  #   image: jwilder/nginx-proxy
-  #   ports:
-  #     - "80:80"
-  #     - "443:443"                                               # x
-  #   volumes:
-  #     - /var/run/docker.sock:/tmp/docker.sock:ro
-  #     - certs:/app/certs:ro                                    # x
-  #     - /etc/nginx/vhost.d                                        # x
-  #     - /usr/share/nginx/html                                   # x
-  #   labels:                                                               # x
-  #     - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy     # x
-  #   depends_on:
-  #     - app
-  #   networks:
-  #     web_xdjango:
-  #   restart: always
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    depends_on:
+      - app
+    networks:
+      web_xdjango:
+    restart: always
   
-  # letsencrypt:
-  #   image: jrcs/letsencrypt-nginx-proxy-companion
-  #   volumes:
-  #     - certs:/app/certs:rw
-  #     - /etc/nginx/certs
-  #     - /var/run/docker.sock:/var/run/docker.sock:ro
-  #   volumes_from:
-  #     - nginx-proxy:rw
-
-  # nginx:
-  #   build: ./nginx
-  #   expose:
-  #     - "80"
-  #   volumes:
-  #     - ./nginx:/etc/nginx/conf.d
-  #     - static:/app/static
-  #   environment:
-  #     - VIRTUAL_HOST=vallesmarket.com,www.vallesmarket.com
-  #     - LETSENCRYPT_HOST=vallesmarket.com,www.vallesmarket.com    # a
-  #     - LETSENCRYPT_EMAIL=siriusx711@gmail.com                    # a
-  #   networks:
-  #     web_xdjango:
-  #   restart: always
+  nginx:
+    build: ./nginx
+    expose:
+      - "80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - static:/app/static
+    environment:
+      - VIRTUAL_HOST=vallesmarket.com,www.vallesmarket.com
+    networks:
+      web_xdjango:
+    restart: always
