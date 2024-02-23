@@ -60,11 +60,12 @@ services:
     image: jc21/nginx-proxy-manager:latest
     ports:
       - '81:81'
-      # - '443:443'
+      - '443:443'
     volumes:
       - ./config.json:/app/config/production.json
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
+      - /var/run/docker.sock:/tmp/docker.sock:ro
     depends_on:
       - db
     networks:
