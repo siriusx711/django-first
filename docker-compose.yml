@@ -40,16 +40,27 @@ services:
       web_xdjango:
     restart: always
 
-
-  nginx:
-    build: ./nginx
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    restart: always
     ports:
       - "80:80"
     volumes:
-      - ./nginx:/etc/nginx/conf.d
-      - static:/app/static
+      - /var/run/docker.sock:/tmp/docker.sock:ro
     depends_on:
       - app
+
+  nginx:
+    build: ./nginx
+    expose:
+      - "80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - static:/app/static
+    environment:
+      - VIRTUAL_HOST=vallesmarket.com,www.vallesmarket.com
+    depends_on:
+      - nginx-proxy
     networks:
       web_xdjango:
     restart: always
