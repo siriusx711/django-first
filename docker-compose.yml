@@ -45,14 +45,14 @@ services:
   manager:
     image: jc21/nginx-proxy-manager:latest
     ports:
-      - '80:80'
+      # - '80:80'
       - '81:81'
       - '443:443'
     volumes:
       - ./config.json:/app/config/production.json
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
-      - /var/run/docker.sock:/tmp/docker.sock:ro
+      # - /var/run/docker.sock:/tmp/docker.sock:ro
     depends_on:
       - db
     networks:
@@ -60,29 +60,31 @@ services:
     restart: always
 
 
-  # nginx-proxy:
-  #   image: jwilder/nginx-proxy
-  #   expose:
-  #     - "80:80"
-  #     - "443:443"
-  #   volumes:
-  #     - /var/run/docker.sock:/tmp/docker.sock:ro
-  #   depends_on:
-  #     - manager
-  #   networks:
-  #     web_xdjango:
-  #   restart: always
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+    expose:
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    depends_on:
+      - manager
+    networks:
+      web_xdjango:
+    restart: always
 
 
   nginx:
     build: ./nginx
     expose:
       - "80"
+      - '443:443'
     volumes:
       - ./nginx:/etc/nginx/conf.d
       - static:/app/static
-    # environment:
-    #   - VIRTUAL_HOST=vallesmarket.com,www.vallesmarket.com
+    environment:
+      - VIRTUAL_HOST=vallesmarket.com,www.vallesmarket.com
     networks:
       web_xdjango:
     restart: always
