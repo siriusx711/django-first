@@ -6,7 +6,6 @@ networks:
 volumes:
   datavolume:
   static:
-  certs:
   .:
 
 services:
@@ -40,44 +39,29 @@ services:
     networks:
       web_xdjango:
     restart: always
-  
-  manager:
-    image: jc21/nginx-proxy-manager:latest
+
+  nginx-proxy:
+    image: jwilder/nginx-proxy
     ports:
-      - '81:81'
-      - '443:443'
+      - "80:80"
     volumes:
-      - ./config.json:/app/config/production.json
-      - ./data:/data
-      - ./letsencrypt:/etc/letsencrypt
       - /var/run/docker.sock:/tmp/docker.sock:ro
     depends_on:
-      - db
+      - app
     networks:
       web_xdjango:
     restart: always
 
-  # nginx-proxy:
-  #   image: jwilder/nginx-proxy
-  #   ports:
-  #     - "80:80"
-  #   volumes:
-  #     - /var/run/docker.sock:/tmp/docker.sock:ro
-  #   depends_on:
-  #     - app
-  #   networks:
-  #     web_xdjango:
-  #   restart: always
-  
+
   nginx:
     build: ./nginx
-    ports:
+    expose:
       - "80"
     volumes:
       - ./nginx:/etc/nginx/conf.d
       - static:/app/static
-    # environment:
-    #   - VIRTUAL_HOST=vallesmarket.com,www.vallesmarket.com
+    environment:
+      - VIRTUAL_HOST=vallesmarket.com,www.vallesmarket.com
     networks:
       web_xdjango:
     restart: always
