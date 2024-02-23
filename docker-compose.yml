@@ -42,20 +42,6 @@ services:
     restart: always
 
 
-  nginx-proxy:
-    image: jwilder/nginx-proxy
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-    depends_on:
-      - app
-    networks:
-      web_xdjango:
-    restart: always
-    
-
   manager:
     image: jc21/nginx-proxy-manager:latest
     ports:
@@ -68,6 +54,21 @@ services:
       - /var/run/docker.sock:/tmp/docker.sock:ro
     depends_on:
       - db
+    networks:
+      web_xdjango:
+    restart: always
+
+
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+    expose:
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    depends_on:
+      - manager
     networks:
       web_xdjango:
     restart: always
