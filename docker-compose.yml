@@ -6,7 +6,6 @@ networks:
 volumes:
   datavolume:
   static:
-  acme:
   .:
 
 services:
@@ -41,34 +40,16 @@ services:
       web_xdjango:
     restart: always
 
-  nginx-proxy:
-    image: jwilder/nginx-proxy
-    restart: always
-    ports:
-      - "80:80"
-      # - "443:443"
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-      # - ./nginx:/etc/nginx/conf.d
-      # - static:/app/static
-      - /etc/nginx/vhost.d
-      - /usr/share/nginx/html
-    depends_on:
-      - app
-    networks:
-      web_xdjango:
-
-    
 
   nginx:
     build: ./nginx
-    expose:
-      - "80"
+    ports:
+      - "80:80"
     volumes:
       - ./nginx:/etc/nginx/conf.d
       - static:/app/static
-    environment:
-      - VIRTUAL_HOST=vallesmarket.com,www.vallesmarket.com
+    depends_on:
+      - app
     networks:
       web_xdjango:
     restart: always
