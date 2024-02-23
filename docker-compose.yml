@@ -47,8 +47,7 @@ services:
       - "80:80"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-    depends_on:
-      - app
+
 
   nginx:
     build: ./nginx
@@ -59,8 +58,6 @@ services:
       - static:/app/static
     environment:
       - VIRTUAL_HOST=vallesmarket.com,www.vallesmarket.com
-    depends_on:
-      - nginx-proxy
     networks:
       web_xdjango:
     restart: always
