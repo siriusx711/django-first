@@ -26,6 +26,7 @@ services:
       web_xdjango:
     restart: always
 
+
   app:
     build:
       context: .
@@ -39,6 +40,7 @@ services:
     networks:
       web_xdjango:
     restart: always
+
 
   nginx-proxy:
     image: jwilder/nginx-proxy
@@ -59,9 +61,11 @@ services:
       - "80"
     volumes:
       - ./nginx:/etc/nginx/conf.d
-      - static:/app/static
+      # - static:/app/static
     environment:
       - VIRTUAL_HOST=vallesmarket.com,www.vallesmarket.com
     networks:
       web_xdjango:
     restart: always
+
+
