@@ -79,7 +79,7 @@ services:
       # - static:/app/static
     environment:
       - VIRTUAL_HOST=vallesmarket.com,www.vallesmarket.com
-      - LETSENCRYPT_HOST=vallesmarket.com,www.valesmarket.com #
+      - LETSENCRYPT_HOST=vallesmarket.com,www.vallesmarket.com #
       - LETSENCRYPT_EMAIL=siriusx711@gmail.com #
     networks:
       web_xdjango:
