@@ -62,6 +62,7 @@ services:
       web_xdjango:
     restart: always
   
+
   letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
     container_name: letsencrypt
@@ -107,3 +108,19 @@ services:
     restart: always
 
 
+
+  nginx_teuchiapp:
+    build: ./nginx
+    container_name: nginx_teuchiapp
+    expose:
+      - "80"
+    volumes:
+      - ./nginx_teuchiapp:/etc/nginx/conf.d
+      # - static:/app/static
+    environment:
+      - VIRTUAL_HOST=teuchit.app,www.teuchit.app
+      - LETSENCRYPT_HOST=teuchit.app,www.teuchit.app #
+      - LETSENCRYPT_EMAIL=siriusx711@gmail.com #
+    networks:
+      web_xdjango:
+    restart: always
