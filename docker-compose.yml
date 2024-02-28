@@ -30,6 +30,7 @@ services:
   app:
     build:
       context: .
+    container_name: app
     volumes:
       - static:/app/static
       - .:/app
@@ -44,6 +45,7 @@ services:
 
   nginx-proxy:
     image: jwilder/nginx-proxy
+    container_name: nginx_proxy
     ports:
       - "80:80"
       - "443:443" #
@@ -62,6 +64,7 @@ services:
   
   letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: letsencrypt
     restart: always
     volumes:
       - ./certs:/etc/nginx/certs:rw
@@ -72,6 +75,7 @@ services:
 
   nginx:
     build: ./nginx
+    container_name: nginx
     expose:
       - "80"
     volumes:
@@ -80,6 +84,23 @@ services:
     environment:
       - VIRTUAL_HOST=vallesmarket.com,www.vallesmarket.com
       - LETSENCRYPT_HOST=vallesmarket.com,www.vallesmarket.com #
+      - LETSENCRYPT_EMAIL=siriusx711@gmail.com #
+    networks:
+      web_xdjango:
+    restart: always
+
+    
+  nginx_teuchitlan:
+    build: ./nginx
+    container_name: nginx_teuchitlan
+    expose:
+      - "80"
+    volumes:
+      - ./nginx_teuchitlan:/etc/nginx/conf.d
+      # - static:/app/static
+    environment:
+      - VIRTUAL_HOST=teuchitlan.app,www.teuchitlan.app
+      - LETSENCRYPT_HOST=teuchitlan.app,www.teuchitlan.app #
       - LETSENCRYPT_EMAIL=siriusx711@gmail.com #
     networks:
       web_xdjango:
