@@ -118,8 +118,8 @@ services:
       - ./nginx_teuchiapp:/etc/nginx/conf.d
       # - static:/app/static
     environment:
-      - VIRTUAL_HOST=teuchit.app,www.teuchit.app
-      - LETSENCRYPT_HOST=teuchit.app,www.teuchit.app #
+      - VIRTUAL_HOST=teuchi.app,www.teuchi.app
+      - LETSENCRYPT_HOST=teuchi.app,www.teuchi.app #
       - LETSENCRYPT_EMAIL=siriusx711@gmail.com #
     networks:
       web_xdjango:
