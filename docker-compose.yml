@@ -93,12 +93,12 @@ services:
 
     
   nginx_teuchitlan:
-    build: ~/django-init/nginx
+    build: ./nginx
     container_name: nginx_teuchitlan
     expose:
-      - "81"
+      - "80"
     volumes:
-      - ~/django-init/nginx:/etc/nginx/conf.d
+      - ./nginx:/etc/nginx/conf.d
       # - static:/app/static
     environment:
       - VIRTUAL_HOST=teuchitlan.app,www.teuchitlan.app
