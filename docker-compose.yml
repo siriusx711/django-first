@@ -97,7 +97,7 @@ services:
     expose:
       - "80"
     volumes:
-      - ./nginx_teuchitlan:/etc/nginx/conf.d
+      - ./nginx:/etc/nginx/conf.d
       # - static:/app/static
     environment:
       - VIRTUAL_HOST=teuchitlan.app,www.teuchitlan.app
@@ -108,14 +108,13 @@ services:
     restart: always
 
 
-
   nginx_teuchiapp:
     build: ./nginx
     container_name: nginx_teuchiapp
     expose:
       - "80"
     volumes:
-      - ./nginx_teuchiapp:/etc/nginx/conf.d
+      - ./nginx:/etc/nginx/conf.d
       # - static:/app/static
     environment:
       - VIRTUAL_HOST=teuchi.app,www.teuchi.app
