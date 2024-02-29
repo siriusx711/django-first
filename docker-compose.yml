@@ -75,21 +75,21 @@ services:
       - nginx-proxy:rw
 
 
-  nginx:
-    build: ./nginx
-    container_name: nginx
-    expose:
-      - "80"
-    volumes:
-      - ./nginx:/etc/nginx/conf.d
-      # - static:/app/static
-    environment:
-      - VIRTUAL_HOST=vallesmarket.com,www.vallesmarket.com
-      - LETSENCRYPT_HOST=vallesmarket.com,www.vallesmarket.com #
-      - LETSENCRYPT_EMAIL=siriusx711@gmail.com #
-    networks:
-      web_xdjango:
-    restart: always
+  # nginx:
+  #   build: ./nginx
+  #   container_name: nginx
+  #   expose:
+  #     - "80"
+  #   volumes:
+  #     - ./nginx:/etc/nginx/conf.d
+  #     # - static:/app/static
+  #   environment:
+  #     - VIRTUAL_HOST=vallesmarket.com,www.vallesmarket.com
+  #     - LETSENCRYPT_HOST=vallesmarket.com,www.vallesmarket.com #
+  #     - LETSENCRYPT_EMAIL=siriusx711@gmail.com #
+  #   networks:
+  #     web_xdjango:
+  #   restart: always
 
     
   nginx_teuchitlan:
@@ -109,18 +109,18 @@ services:
     restart: always
 
 
-  nginx_teuchiapp:
-    build: ./nginx
-    container_name: nginx_teuchiapp
-    expose:
-      - "80"
-    volumes:
-      - ./nginx:/etc/nginx/conf.d
-      # - static:/app/static
-    environment:
-      - VIRTUAL_HOST=teuchi.app,www.teuchi.app
-      - LETSENCRYPT_HOST=teuchi.app,www.teuchi.app #
-      - LETSENCRYPT_EMAIL=siriusx711@gmail.com #
-    networks:
-      web_xdjango:
-    restart: always
+  # nginx_teuchiapp:
+  #   build: ./nginx
+  #   container_name: nginx_teuchiapp
+  #   expose:
+  #     - "80"
+  #   volumes:
+  #     - ./nginx:/etc/nginx/conf.d
+  #     # - static:/app/static
+  #   environment:
+  #     - VIRTUAL_HOST=teuchi.app,www.teuchi.app
+  #     - LETSENCRYPT_HOST=teuchi.app,www.teuchi.app #
+  #     - LETSENCRYPT_EMAIL=siriusx711@gmail.com #
+  #   networks:
+  #     web_xdjango:
+  #   restart: always
