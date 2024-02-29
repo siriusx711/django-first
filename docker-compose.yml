@@ -97,7 +97,7 @@ services:
     expose:
       - "80"
     volumes:
-      - ./nginx:/etc/nginx/conf.d
+      - ~/django-init/nginx:/etc/nginx/conf.d
       # - static:/app/static
     environment:
       - VIRTUAL_HOST=teuchitlan.app,www.teuchitlan.app
