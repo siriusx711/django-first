@@ -3,13 +3,15 @@ version: '3.7'
 networks:
   web_xdjango:
 
+
 volumes:
   datavolume:
   static:
   .:
 
+
 services:
-  
+
   db:
     image: postgres:14.4
     container_name: xdjango_db
@@ -26,7 +28,6 @@ services:
       web_xdjango:
     restart: always
 
-
   app:
     build:
       context: .
@@ -42,7 +43,6 @@ services:
       web_xdjango:
     restart: always
 
-
   nginx-proxy:
     image: jwilder/nginx-proxy
     container_name: nginx_proxy
@@ -55,14 +55,14 @@ services:
       - ./certs:/etc/nginx/certs:ro #
       - /etc/nginx/vhost.d #
       - /usr/share/nginx/html #
-    labels: #
+    labels:
+      #
       - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy #
     depends_on:
       - app
     networks:
       web_xdjango:
     restart: always
-  
 
   letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
@@ -73,7 +73,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     volumes_from:
       - nginx-proxy:rw
-
 
   # nginx:
   #   build: ./nginx
@@ -91,7 +90,7 @@ services:
   #     web_xdjango:
   #   restart: always
 
-    
+
   nginx_teuchitlan:
     build: ./nginx
     container_name: nginx_teuchitlan
@@ -108,19 +107,18 @@ services:
       web_xdjango:
     restart: always
 
-
-  # nginx_teuchiapp:
-  #   build: ./nginx
-  #   container_name: nginx_teuchiapp
-  #   expose:
-  #     - "80"
-  #   volumes:
-  #     - ./nginx:/etc/nginx/conf.d
-  #     # - static:/app/static
-  #   environment:
-  #     - VIRTUAL_HOST=teuchi.app,www.teuchi.app
-  #     - LETSENCRYPT_HOST=teuchi.app,www.teuchi.app #
-  #     - LETSENCRYPT_EMAIL=siriusx711@gmail.com #
-  #   networks:
-  #     web_xdjango:
-  #   restart: always
+  nginx_teuchiapp:
+    build: ./nginx
+    container_name: nginx_teuchiapp
+    expose:
+      - "80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      # - static:/app/static
+    environment:
+      - VIRTUAL_HOST=teuchi.app,www.teuchi.app
+      - LETSENCRYPT_HOST=teuchi.app,www.teuchi.app #
+      - LETSENCRYPT_EMAIL=siriusx711@gmail.com #
+    networks:
+      web_xdjango:
+    restart: always
